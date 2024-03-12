@@ -12,6 +12,7 @@ function CountriesTable({
 }) {
     const [sortedAsc, setSortedAsc] = useState();
 
+    // defines the data is there in array or is it empty
     const searchResultsAvailable = useMemo(() => {
         return Array.isArray(searchResults) && searchResults.length
     }, [searchResults]);
@@ -56,7 +57,7 @@ function CountriesTable({
                             ?
                             <h4>Fecthing data...</h4>
                             :
-                            isFetched && searchResultsAvailable
+                            isFetched
                                 ?
                                 <table>
                                     <thead className="position-sticky bg-white">
@@ -78,7 +79,7 @@ function CountriesTable({
                                                 ?
                                                 searchResultsForCurrentPage.map(({ flags, name, cca3 }, index) => {
                                                     return (
-                                                        <tr key={name.common+cca3}>
+                                                        <tr key={name.common + cca3}>
                                                             <td>{leftPivot + index + 1}.</td>
                                                             <td>{name.common}</td>
                                                             <td>
@@ -90,16 +91,16 @@ function CountriesTable({
                                                     )
                                                 })
                                                 :
-                                                null
+                                                <tr>
+                                                    <td colSpan={3}>
+                                                        <h4>No results found for <span className="bold italic">{searchQuery}</span></h4>
+                                                    </td>
+                                                </tr>
                                         }
                                     </tbody>
                                 </table>
                                 :
-                                isFetched && Array.isArray(searchResults) && searchResults.length === 0
-                                    ?
-                                    <h4>No results found for <span className="bold italic">{searchQuery}</span></h4>
-                                    :
-                                    null
+                                null
                 }
             </main>
             :
